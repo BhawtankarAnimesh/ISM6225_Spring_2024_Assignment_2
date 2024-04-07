@@ -8,8 +8,6 @@ WRITE YOUR CODE IN THE RESPECTIVE QUESTION FUNCTION BLOCK
 
 using System.Text;
 
-
-
 namespace ISM6225_Spring_2024_Assignment_2
 {
     class Program
@@ -50,13 +48,13 @@ namespace ISM6225_Spring_2024_Assignment_2
 
             //Question 6:
             Console.WriteLine("Question 6:");
-            int[] nums5 = { 3,6,9,1 };
+            int[] nums5 = { 3, 6, 9, 1 };
             int maxGap = MaximumGap(nums5);
             Console.WriteLine(maxGap);
 
             //Question 7:
             Console.WriteLine("Question 7:");
-            int[] nums6 = { 2,1,2 };
+            int[] nums6 = { 2, 1, 2 };
             int largestPerimeterResult = LargestPerimeter(nums6);
             Console.WriteLine(largestPerimeterResult);
 
@@ -68,7 +66,7 @@ namespace ISM6225_Spring_2024_Assignment_2
 
         /*
         
-        Question 1:
+        Question 1 :
         Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.
 
         Consider the number of unique elements of nums to be k, to get accepted, you need to do the following things:
@@ -101,11 +99,25 @@ namespace ISM6225_Spring_2024_Assignment_2
         {
             try
             {
-                // Write your code here and you can modify the return value according to the requirements
-                return 0;
+                if (nums == null || nums.Length == 0)
+                    return 0;
+
+                int unique_value_index = 0;
+                for (int i = 1; i < nums.Length; i++)
+                {
+                    // Check current element is different form previous
+                    if (nums[i] != nums[unique_value_index])
+                    {
+                        // Incrementing value for unique element
+                        unique_value_index++;
+                        nums[unique_value_index] = nums[i];
+                    }
+                }
+                return unique_value_index + 1;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine("An error has occured in the code " + ex.Message);
                 throw;
             }
         }
@@ -136,11 +148,29 @@ namespace ISM6225_Spring_2024_Assignment_2
         {
             try
             {
-                // Write your code here and you can modify the return value according to the requirements
-                return new List<int>();
+                int not_zero_index = 0;
+                for (int i = 0; i < nums.Length; i++)
+                {
+                    if (nums[i] != 0)
+                    {
+                        nums[not_zero_index] = nums[i];
+                        not_zero_index++;
+                    }
+                }
+
+                //adding 0 to rest of the array
+                while (not_zero_index < nums.Length)
+                {
+                    nums[not_zero_index] = 0;
+                    not_zero_index++;
+                }
+
+                // Converting the array to list
+                return nums.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine("An error has occured in the code: " + ex.Message);
                 throw;
             }
         }
@@ -187,13 +217,53 @@ namespace ISM6225_Spring_2024_Assignment_2
         {
             try
             {
-                // Write your code here and you can modify the return value according to the requirements
-                return new List<IList<int>>();
+                List<IList<int>> result = new List<IList<int>>();
+
+               //Sorting the array
+                Array.Sort(nums);
+                
+                for (int i = 0; i < nums.Length - 2; i++)
+                {
+                    if (i > 0 && nums[i] == nums[i - 1])
+                        continue;
+
+                    int left = i + 1;
+                    int right = nums.Length - 1;
+                    while (left < right)
+                    {
+                        int sum = nums[i] + nums[left] + nums[right];
+
+                        if (sum == 0)
+                        {
+                            // Adding triplet to a new list
+                            result.Add(new List<int> { nums[i], nums[left], nums[right] });
+                            while (left < right && nums[left] == nums[left + 1])
+                                left++;
+                            while (left < right && nums[right] == nums[right - 1])
+                                right--;
+
+                            // Move pointers
+                            left++;
+                            right--;
+                        }
+                        else if (sum < 0)
+                        {
+                            left++;
+                        }
+                        else
+                        {
+                            right--;
+                        }
+                    }
+                }
+                return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine("An error occurred: " + ex.Message);
                 throw;
             }
+
         }
 
         /*
@@ -222,11 +292,30 @@ namespace ISM6225_Spring_2024_Assignment_2
         {
             try
             {
-                // Write your code here and you can modify the return value according to the requirements
-                return 0;
+                int current_count_pointer = 0;
+                int max_zero_count = 0;
+                
+                foreach (int num in nums)
+                {
+                    // If the current pointer = 1, increment
+                    if (num == 1)
+                    {
+                        current_count_pointer++;
+                        // Update the maximum counnt 
+                        max_zero_count = Math.Max(max_zero_count, current_count_pointer);
+                    }
+                    else
+                    {
+                        current_count_pointer = 0;
+                    }
+                }
+
+                // Return the maximum occurences of 1 
+                return max_zero_count;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine("An error occurred: " + ex.Message);
                 throw;
             }
         }
@@ -258,11 +347,24 @@ namespace ISM6225_Spring_2024_Assignment_2
         {
             try
             {
-                // Write your code here and you can modify the return value according to the requirements
-                return 0;
+                int baseMultiplier = 1;
+                int dec_number = 0;
+
+                while (binary != 0)
+                {
+                    // getting last digit of the number
+                    int remainder = binary % 10;
+                    dec_number += remainder * baseMultiplier;
+                    // moving the next digit      
+                    binary /= 10;                    
+                    baseMultiplier = baseMultiplier * 2;
+                }
+                return dec_number;
             }
-            catch (Exception)
+
+            catch (Exception ex)
             {
+                Console.WriteLine("An error occurred: " + ex.Message);
                 throw;
             }
         }
@@ -296,11 +398,27 @@ namespace ISM6225_Spring_2024_Assignment_2
         {
             try
             {
-                // Write your code here and you can modify the return value according to the requirements
-                return 0;
+                if (nums.Length < 2)
+                {
+                    return 0;
+                }
+
+                int maximum_difference = 0;
+                //Sorting the array for finding difference
+                Array.Sort(nums);               
+                for (int i = 1; i < nums.Length; i++)
+                {
+                    int difference = nums[i] - nums[i - 1];
+                    if (difference > maximum_difference)
+                    {
+                        maximum_difference = difference;
+                    }
+                }
+               return maximum_difference;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine("An error occurred: " + ex.Message);
                 throw;
             }
         }
@@ -336,11 +454,23 @@ namespace ISM6225_Spring_2024_Assignment_2
         {
             try
             {
-                // Write your code here and you can modify the return value according to the requirements
+                Array.Sort(nums);
+                //Make array in decending array
+                Array.Reverse(nums);         
+                for (int i = 0; i < nums.Length - 2; i++)
+                {
+                    if (nums[i] < nums[i + 1] + nums[i + 2])
+                    {
+                        // Returning the perimeter
+                        return nums[i] + nums[i + 1] + nums[i + 2];
+                    }
+                }
+                // If no traingle can be formed returning 0
                 return 0;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine("An error occurred: " + ex.Message);
                 throw;
             }
         }
@@ -388,13 +518,19 @@ namespace ISM6225_Spring_2024_Assignment_2
 
         public static string RemoveOccurrences(string s, string part)
         {
+
             try
-            {
-                // Write your code here and you can modify the return value according to the requirements
-                return "";
+            {      
+                while (s.Contains(part))
+                {
+                    int index = s.IndexOf(part);
+                    s = s.Remove(index, part.Length);
+                }
+                return s;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine("An error occurred: " + ex.Message);
                 throw;
             }
         }
