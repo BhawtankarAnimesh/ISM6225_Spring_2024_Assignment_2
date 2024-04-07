@@ -232,17 +232,16 @@ namespace ISM6225_Spring_2024_Assignment_2
                     while (left < right)
                     {
                         int sum = nums[i] + nums[left] + nums[right];
-
                         if (sum == 0)
                         {
-                            // Adding triplet to a new list
+                            // Add the triplets to a new list
                             result.Add(new List<int> { nums[i], nums[left], nums[right] });
                             while (left < right && nums[left] == nums[left + 1])
                                 left++;
                             while (left < right && nums[right] == nums[right - 1])
                                 right--;
 
-                            // Move pointers
+                            // Moving the pointers
                             left++;
                             right--;
                         }
@@ -260,7 +259,7 @@ namespace ISM6225_Spring_2024_Assignment_2
             }
             catch (Exception ex)
             {
-                Console.WriteLine("An error occurred: " + ex.Message);
+                Console.WriteLine("Error occurred in the code: " + ex.Message);
                 throw;
             }
 
@@ -520,7 +519,8 @@ namespace ISM6225_Spring_2024_Assignment_2
         {
 
             try
-            {      
+            {   
+                //Checking if the string contains the part
                 while (s.Contains(part))
                 {
                     int index = s.IndexOf(part);
